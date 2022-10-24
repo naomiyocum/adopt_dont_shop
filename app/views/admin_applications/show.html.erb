@@ -4,14 +4,14 @@
 <h4>Applied for:</h4>
 <% @pets.each do |pet| %>
   <div id="petbox-<%=pet.id%>">
-  <% if @app.status == "Approved" %>
+  <% if ApplicationPet.find_me(@app.id, pet.id).status == "Approved" %>
     <p><%= pet.name %> has been approved!</p>
-  <% elsif @app.status == "Rejected" %>
+  <% elsif ApplicationPet.find_me(@app.id, pet.id).status == "Rejected" %>
     <p><%= pet.name %> has been rejected.</p>
   <% else %>
     <%= pet.name %><br>
-    <%= button_to "Approve", "/admin/applications/#{@app.id}?approve=#{pet.name}"%><br>
-    <%= button_to "Reject", "/admin/applications/#{@app.id}?reject=#{pet.name}"%>
+    <%= button_to "Approve", "/admin/applications/#{@app.id}?approve=#{pet.id}" %><br>
+    <%= button_to "Reject", "/admin/applications/#{@app.id}?reject=#{pet.id}" %>
   <% end %>
   </div>
 <% end %>
