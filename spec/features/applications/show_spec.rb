@@ -55,6 +55,22 @@ RSpec.describe "application show page", type: :feature do
         expect(page).to have_selector(:link_or_button, "ADOPT THIS PET")
       end
 
+      it 'will not show the same pet if added to the application already' do
+        visit "/applications/#{app.id}"
+
+        fill_in 'Search for Pets by Name', with: 'Scrappy' 
+        click_button('Submit') 
+
+        page.first(:button, 'ADOPT THIS PET').click
+        expect(page).to have_content(scrappy.name)
+        expect(page).to have_content(scrappy.breed)
+
+        fill_in 'Search for Pets by Name', with: 'Scrappy' 
+        click_button('Submit') 
+        
+        expect(page).to_not have_selector(:link_or_button, 'ADOPT THIS PET')
+      end
+
       it 'when I click one of these buttons, the application show page refreshes and 
       the pet I want to adopt is listed on this application' do
         visit "/applications/#{app.id}"
