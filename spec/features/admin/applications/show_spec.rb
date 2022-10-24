@@ -8,7 +8,7 @@ RSpec.describe 'admin application show page', type: :feature do
 
 
   describe 'the application show page if an admin is viewing' do
-    xit 'has a button to approve for each pet' do
+    it 'has a button to approve for each pet' do
       ApplicationPet.create!(application: app, pet: scooby)
       ApplicationPet.create!(application: app, pet: scrappy)
 
@@ -22,7 +22,7 @@ RSpec.describe 'admin application show page', type: :feature do
         click_button('Approve')
       end
 
-      expect(page).to_not have_selector(:link_or_button, 'Approve')
+      expect(within("#petbox-#{scooby.id}")).to_not have_selector(:link_or_button, 'Approve')
       expect(page).to have_content('Scooby has been approved!')
       expect(page).to have_content('Scrappy has been approved!')
     end

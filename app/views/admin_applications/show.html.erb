@@ -4,9 +4,9 @@
 <h4>Applied for:</h4>
 <% @pets.each do |pet| %>
   <div id="petbox-<%=pet.id%>">
-  <% if params[:approve] == pet.name %>
+  <% if @app.status == "Approved" %>
     <p><%= pet.name %> has been approved!</p>
-  <% elsif params[:reject] == pet.name %>
+  <% elsif @app.status == "Rejected" %>
     <p><%= pet.name %> has been rejected.</p>
   <% else %>
     <%= pet.name %><br>
