@@ -4,7 +4,7 @@
 <p>Description: <%= @app.description %></p>
 <p>Status: <%= @app.status %></p>
 
-<% if @app.status == 'Pending' %>
+<% if @app.status != 'In Progress' %>
   <h3>Applied For: <% @app.pets.each do |pet| %><%= pet.name %> (<%= pet.breed %>)</p>
 <% end %></h3>
   <% else %>
@@ -20,7 +20,7 @@
 <% end %>
 <p>--------------------------------------------------------------------------</p>
 
-<% if @app.status == 'Pending' %>
+<% if @app.status != 'In Progress' %>
   <p>Thank you for applying!<p>
 <% else %>
   <h2>ADD A PET TO THIS APPLICATION</h2>
