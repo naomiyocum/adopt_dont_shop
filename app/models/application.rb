@@ -2,7 +2,8 @@ class Application < ApplicationRecord
   has_many :application_pets
   has_many :pets, through: :application_pets
 
-  validates :name, :street_address, :city, :state, :zipcode, :description, :status, :presence => true
+  validates :name, :street_address, :city, :state, :description, :status, :presence => true
+  validates :zipcode, presence: :true, numericality: :true
 
   def add_pet(pet_id)
     self.pets << Pet.find(pet_id)
