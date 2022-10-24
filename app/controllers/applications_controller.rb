@@ -16,7 +16,8 @@ class ApplicationsController < ApplicationController
     if @app.save
       redirect_to "/applications/#{@app.id}"
     else
-      render 'new'
+      flash[:errors] = "Invalid Input"
+      render 'new' 
     end
   end
 

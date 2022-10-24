@@ -11,6 +11,7 @@ RSpec.describe Application, type: :model do
     it { should validate_presence_of(:city) }
     it { should validate_presence_of(:state) }
     it { should validate_presence_of(:zipcode) }
+    it { should validate_numericality_of(:zipcode) }
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:status) }
   end
@@ -42,14 +43,14 @@ RSpec.describe Application, type: :model do
       end
     end
 
-     describe '#to_accepted' do
+     describe '#to_approved' do
       it 'changes the status to pending' do
         app = Application.create!(name: "Miley Cyrus", street_address: "123 Hollywood Blvd", city: "Los Angeles", state: "California", zipcode: 12345, description: "I am rich and hot", status: "In Progress")
         expect(app.status).to eq("In Progress")
 
-        app.to_accepted
+        app.to_approved
 
-        expect(app.status).to eq("Accepted")
+        expect(app.status).to eq("Approved")
       end
     end
 
