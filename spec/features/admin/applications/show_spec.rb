@@ -18,27 +18,20 @@ RSpec.describe 'admin application show page', type: :feature do
         click_button('Approve')
       end
 
-      within("#petbox-#{scrappy.id}") do
-        click_button('Approve')
-      end
-
-      expect(within("#petbox-#{scooby.id}")).to_not have_selector(:link_or_button, 'Approve')
+      
+      expect(page).to_not have_selector(:link_or_button, 'Approve')
       expect(page).to have_content('Scooby has been approved!')
       expect(page).to have_content('Scrappy has been approved!')
     end
 
-    xit 'has a button to reject for each pet' do
+    it 'has a button to reject for each pet' do
       ApplicationPet.create!(application: app, pet: scooby)
       ApplicationPet.create!(application: app, pet: scrappy)
 
       visit "/admin/applications/#{app.id}"
 
-      within("#petbox-#{scooby.id}") do
-        page.first(:button, 'Reject').click
-      end
-
       within("#petbox-#{scrappy.id}") do
-        page.first(:button, 'Reject').click
+        click_button "Reject"
       end
 
       expect(page).to_not have_selector(:link_or_button, 'Reject')
