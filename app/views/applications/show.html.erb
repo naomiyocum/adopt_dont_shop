@@ -32,6 +32,7 @@
   <% if params[:search] %>
   <% @pets = Pet.pet_name_filter(params[:search]) %>
     <% @pets.each do |pet| %>
+      <% next if @app.pets.include?(pet) %>
       <h3>Name: <%= pet.name %></h3>
       <p>Age: <%= pet.age %></p>
       <p>Breed: <%= pet.breed %></p>

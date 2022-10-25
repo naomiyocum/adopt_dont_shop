@@ -16,15 +16,20 @@ class ApplicationsController < ApplicationController
     if @app.save
       redirect_to "/applications/#{@app.id}"
     else
-      flash[:errors] = "Invalid Input"
-      render 'new' 
+      redirect_to "/applications/new"
+      flash[:alert] = @app.errors.full_messages.to_sentence
     end
   end
 
   def submit
     @app = Application.find(params[:id])
-    @app.update(description: params[:why], status: 'Pending')
-    redirect_to "/applications/#{@app.id}"
+    if params[:why] != ""
+      @app.update(description: params[:why], status: 'Pending')
+      redirect_to "/applications/#{@app.id}"
+    else
+      flash[:alert] = "Invalid input: Description cannot be empty"
+      render :show
+    end
   end
 
 private

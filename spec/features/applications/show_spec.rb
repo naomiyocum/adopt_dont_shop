@@ -55,6 +55,22 @@ RSpec.describe "application show page", type: :feature do
         expect(page).to have_selector(:link_or_button, "ADOPT THIS PET")
       end
 
+      it 'will not show the same pet if added to the application already' do
+        visit "/applications/#{app.id}"
+
+        fill_in 'Search for Pets by Name', with: 'Scrappy' 
+        click_button('Submit') 
+
+        page.first(:button, 'ADOPT THIS PET').click
+        expect(page).to have_content(scrappy.name)
+        expect(page).to have_content(scrappy.breed)
+
+        fill_in 'Search for Pets by Name', with: 'Scrappy' 
+        click_button('Submit') 
+        
+        expect(page).to_not have_selector(:link_or_button, 'ADOPT THIS PET')
+      end
+
       it 'when I click one of these buttons, the application show page refreshes and 
       the pet I want to adopt is listed on this application' do
         visit "/applications/#{app.id}"
@@ -85,6 +101,21 @@ RSpec.describe "application show page", type: :feature do
         expect(page).to have_content('Pending')
         expect(page).to have_content(scooby.name)
         expect(page).to_not have_content('Search for Pets by Name')
+      end
+    end
+
+    describe 'does not allow user to submit if description is not filled' do
+      it 'flashes an error message about the description' do
+        visit "/applications/#{app.id}"
+
+        fill_in 'Search for Pets by Name', with: 'Scooby'
+        click_button('Submit')
+
+        page.first(:button, 'ADOPT THIS PET').click
+        click_button('Submit Application')
+
+        expect(page).to have_content("Invalid input: Description cannot be empty")
+        expect(page).to have_button('Submit Application')
       end
     end
   end

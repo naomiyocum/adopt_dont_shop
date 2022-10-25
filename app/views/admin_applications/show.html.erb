@@ -10,8 +10,8 @@
     <p><%= pet.name %> has been rejected.</p>
   <% else %>
     <%= pet.name %><br>
-    <%= button_to "Approve", "/admin/applications/#{@app.id}?approve=#{pet.id}" %><br>
-    <%= button_to "Reject", "/admin/applications/#{@app.id}?reject=#{pet.id}" %>
+    <%= button_to "Approve", {approve: pet.id} %><br>
+    <%= button_to "Reject", {reject: pet.id} %>
   <% end %>
   </div>
 <% end %>
