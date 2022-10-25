@@ -103,5 +103,20 @@ RSpec.describe "application show page", type: :feature do
         expect(page).to_not have_content('Search for Pets by Name')
       end
     end
+
+    describe 'does not allow user to submit if description is not filled' do
+      it 'flashes an error message about the description' do
+        visit "/applications/#{app.id}"
+
+        fill_in 'Search for Pets by Name', with: 'Scooby'
+        click_button('Submit')
+
+        page.first(:button, 'ADOPT THIS PET').click
+        click_button('Submit Application')
+
+        expect(page).to have_content("Invalid input: Description cannot be empty")
+        expect(page).to have_button('Submit Application')
+      end
+    end
   end
 end
